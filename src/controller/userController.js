@@ -1,0 +1,81 @@
+import e from 'express';
+import userApiService from '../service/userApiService';
+
+const readFunc = async (req, res) => {
+    try {
+        if (req.query.page && req.query.limit) {
+            let page = req.query.page;
+            let limit = req.query.limit;
+
+            let data = await userApiService.getUserWithPagination(+page, +limit);
+
+            return res.status(200).json({
+                EM: data.EM, // error message
+                EC: data.EC,
+                DT: data.DT
+            });
+
+
+        } else {
+            let data = await userApiService.getAllUser();
+
+            return res.status(200).json({
+                EM: data.EM, // error message
+                EC: data.EC,
+                DT: data.DT
+            });
+        }
+
+
+    } catch (error) {
+        console.log(e)
+        return res.status(500).json({
+            EM: "error form sever", // error message
+            EC: "-1",
+            DT: ""
+        })
+    }
+}
+
+const createFunc = async (req, res) => {
+    try {
+        // let users = await userApiService.getAllUser();
+    } catch (error) {
+        console.log(e)
+        return res.status(500).json({
+            EM: "error form sever", // error message
+            EC: "-1",
+            DT: ""
+        })
+    }
+}
+
+const updateFunc = async (req, res) => {
+    try {
+        // let users = await userApiService.getAllUser();
+    } catch (error) {
+        console.log(e)
+        return res.status(500).json({
+            EM: "error form sever", // error message
+            EC: "-1",
+            DT: ""
+        })
+    }
+}
+
+const deleteFunc = async (req, res) => {
+    try {
+        // let users = await userApiService.getAllUser();
+    } catch (error) {
+        console.log(e)
+        return res.status(500).json({
+            EM: "error form sever", // error message
+            EC: "-1",
+            DT: ""
+        })
+    }
+}
+
+module.exports = {
+    readFunc, createFunc, updateFunc, deleteFunc
+}
