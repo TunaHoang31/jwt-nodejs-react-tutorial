@@ -1,4 +1,5 @@
 import db from '../models/index'
+import { checkEmailExist, checkPhoneExist, hashUserPassword } from './loginRegisterService';
 
 const getAllUser = async () => {
     try {
@@ -36,7 +37,10 @@ const getUserWithPagination = async (page, limit) => {
         let offset = (page - 1) * limit;
         const { count, rows } = await db.User.findAndCountAll({
             offset: offset,
-            limit: limit
+            limit: limit,
+            attributes: ["id", "username", "email", "phone", "sex", "address"],
+            include: { model: db.Group, attributes: ["name", "description", "id"] },
+            oder: [['id', 'DESC']]
         })
         let totalPages = Math.ceil(count / limit);
         let data = {
@@ -63,9 +67,32 @@ const getUserWithPagination = async (page, limit) => {
 
 const createNewUser = async (data) => {
     try {
-        await db.User.create({
+        //check email/phoneNumber are exist
+        let isEmailExist = await checkEmailExist(data.email);
+        if (isEmailExist === true) {
+            return {
+                EM: 'Email đã tồn tại.',
+                EC: 1,
+                DT: 'email'
+            }
+        }
+        let isPhoneExist = await checkPhoneExist(data.phone);
+        if (isPhoneExist === true) {
+            return {
+                EM: 'Số điện thoại đã tồn tại.',
+                EC: 1,
+                DT: 'phone'
+            }
+        }
+        //hash user password 
+        let hashPassword = hashUserPassword(data.password);
 
-        })
+        await db.User.create({ ...data, password: hashPassword });
+        return {
+            EM: 'Thêm người dùng thành công',
+            EC: 0,
+            DT: []
+        }
     } catch (error) {
         console.log(error);
 
@@ -74,31 +101,74 @@ const createNewUser = async (data) => {
 
 const updateUser = async (data) => {
     try {
+        if (!data.groupId) {
+            return {
+                EM: 'Group không hợp lệ.',
+                EC: 1,
+                DT: 'group'
+            }
+        }
         let user = await db.User.findOne({
             where: { id: data.id }
         })
         if (user) {
             //update
-            user.save({
+            await user.update({
+                username: data.username,
+                address: data.address,
+                sex: data.sex,
+                groupId: data.groupId
 
             })
+            return {
+                EM: 'Lưu người dùng thành công.',
+                EC: 0,
+                DT: ''
+            }
         } else {
             //not found
+            return {
+                EM: 'Không tìm thấy người dùng.',
+                EC: 2,
+                DT: ''
+            }
         }
     } catch (error) {
         console.log(error);
-
+        return {
+            EM: 'something wrongs with service',
+            EC: 1,
+            DT: []
+        }
     }
 }
 
 const deleteUser = async (id) => {
     try {
-        await db.User.delete({
+        let user = await db.User.findOne({
             where: { id: id }
         })
+        if (user) {
+            await user.destroy();
+            return {
+                EM: 'Xóa thành công',
+                EC: 0,
+                DT: []
+            }
+        } else {
+            return {
+                EM: 'Người dùng không tồn tại',
+                EC: 2,
+                DT: []
+            }
+        }
     } catch (error) {
         console.log(error);
-
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
     }
 }
 
