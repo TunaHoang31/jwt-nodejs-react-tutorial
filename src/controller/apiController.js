@@ -48,9 +48,12 @@ const handleRegister = async (req, res) => {
 
 const handleLogin = async (req, res) => {
     // console.log('check login from react', req.body);
-
     try {
         let data = await loginRegisterService.handleUserLogin(req.body);
+        // set cookies
+        if (data && data.DT && data.DT.access_token) {
+            res.cookie("jwt", data.DT.access_token, { httpOnly: true, maxAge: 60 * 60 * 1000 });
+        }
 
         return res.status(200).json({
             EM: data.EM, // error message

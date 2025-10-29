@@ -3,6 +3,7 @@ import userApiService from '../service/userApiService';
 
 const readFunc = async (req, res) => {
     try {
+
         if (req.query.page && req.query.limit) {
             let page = req.query.page;
             let limit = req.query.limit;
@@ -92,7 +93,18 @@ const deleteFunc = async (req, res) => {
         })
     }
 }
-
+const getUserAccount = async (req, res) => {
+    return res.status(200).json({
+        EM: "ok", // error message
+        EC: 0,
+        DT: {
+            access_token: req.token,
+            groupWithRoles: req.user.groupWithRoles,
+            email: req.user.email,
+            username: req.user.username
+        }
+    });
+}
 module.exports = {
-    readFunc, createFunc, updateFunc, deleteFunc
+    readFunc, createFunc, updateFunc, deleteFunc, getUserAccount
 }

@@ -4,8 +4,11 @@ const handleHelloWord = (req, res) => {
 };
 
 const handleUserPage = async (req, res) => {
-    let userList = await userService.getUserList();
-    await userService.deleteUser(5);
+
+    // console.log('cookies; ', req.cookies)
+    // res.cookie('test', 'test cookies')
+
+        let userList = await userService.getUserList();
     return res.render("user.ejs", { userList });
 };
 
