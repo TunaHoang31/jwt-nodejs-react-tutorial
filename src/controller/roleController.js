@@ -1,32 +1,15 @@
-import e from 'express';
 import userApiService from '../service/userApiService';
+import roleApiService from '../service/roleApiService';
 
 const readFunc = async (req, res) => {
     try {
+        let data = await roleApiService.getAllRoles();
 
-        if (req.query.page && req.query.limit) {
-            let page = req.query.page;
-            let limit = req.query.limit;
-
-            let data = await userApiService.getUserWithPagination(+page, +limit);
-
-            return res.status(200).json({
-                EM: data.EM, // error message
-                EC: data.EC,
-                DT: data.DT
-            });
-
-
-        } else {
-            let data = await userApiService.getAllUser();
-
-            return res.status(200).json({
-                EM: data.EM, // error message
-                EC: data.EC,
-                DT: data.DT
-            });
-        }
-
+        return res.status(200).json({
+            EM: data.EM, // error message
+            EC: data.EC,
+            DT: data.DT
+        });
 
     } catch (error) {
         console.log(error)
@@ -40,7 +23,7 @@ const readFunc = async (req, res) => {
 
 const createFunc = async (req, res) => {
     try {
-        let data = await userApiService.createNewUser(req.body);
+        let data = await roleApiService.createNewRoles(req.body);
         return res.status(200).json({
             EM: data.EM, // error message
             EC: data.EC,
@@ -76,9 +59,7 @@ const updateFunc = async (req, res) => {
 
 const deleteFunc = async (req, res) => {
     try {
-        // console.log(" req.body = ", req.body)
-        // // let users = await userApiService.getAllUser();
-        let data = await userApiService.deleteUser(req.body.id);
+        let data = await roleApiService.deleteRole(req.body.id);
         return res.status(200).json({
             EM: data.EM, // error message
             EC: data.EC,
@@ -93,18 +74,7 @@ const deleteFunc = async (req, res) => {
         })
     }
 }
-const getUserAccount = async (req, res) => {
-    return res.status(200).json({
-        EM: "ok", // error message
-        EC: 0,
-        DT: {
-            access_token: req.token,
-            groupWithRoles: req.user.groupWithRoles,
-            email: req.user.email,
-            username: req.user.username
-        }
-    });
-}
+
 module.exports = {
-    readFunc, createFunc, updateFunc, deleteFunc, getUserAccount
+    readFunc, createFunc, updateFunc, deleteFunc
 }
