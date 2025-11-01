@@ -5,12 +5,12 @@ const getGroupWithRoles = async (user) => {
         where: { id: user.groupId },
         attributes: ["id", "name", "description"],
         include: {
-        model: db.Role,
-        attributes: ["id", "url", "description"],
-        through: { attributes: [] }
-    }
+            model: db.Role,
+            attributes: ["id", "url", "description"],
+            through: { attributes: [] }
+        }
     })
-return roles ? roles : {};
+    return roles ? roles : {};
 }
 
 module.exports = {

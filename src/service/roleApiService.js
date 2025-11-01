@@ -78,7 +78,62 @@ const deleteRole = async (id) => {
         }
     }
 }
+const getRoleByGroup = async (id) => {
+    try {
+        if (!id) {
+            return {
+                EM: `Không tìm thấy quyền`,
+                EC: 0,
+                DT: []
+            }
+        }
+        let roles = await db.Group.findOne({
+            where: { id: id },
+            attributes: ["id", "name", "description"],
+            include: {
+                model: db.Role,
+                attributes: ["id", "url", "description"],
+                through: { attributes: [] }
+            }
+        })
+        return {
+            EM: `Hiện nhóm quyền hạn thành công`,
+            EC: 0,
+            DT: roles
+        }
+
+    } catch (error) {
+        console.log(error)
+        return {
+            EM: 'something wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
+const assignRoleToGroup = async (data) => {
+    try {
+        await db.Group_Role.destroy({
+            where: { groupId: +data.groupId }
+        })
+        await db.Group_Role.bulkCreate(data.groupRoles);
+        return {
+            EM: `Thay đổi thành công`,
+            EC: 0,
+            DT: []
+        }
+
+    } catch (error) {
+        console.log(error)
+        return {
+            EM: 'something wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
 
 module.exports = {
-    createNewRoles, getAllRoles, deleteRole
+    createNewRoles, getAllRoles, deleteRole, getRoleByGroup, assignRoleToGroup
 }
