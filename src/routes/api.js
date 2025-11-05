@@ -28,7 +28,7 @@ const initApiRoutes = (app) => {
     // GET -R, POST -C, PUT -U, DELETE -D
     // router.get("/test-api", apiController.testApi);
 
-    // Public news routes (no auth)
+    // Public news routes
     router.get('/news/articles', articleController.listPublic); // ?page=&limit=&categoryId=&keyword=
     router.get('/news/articles/:slug', articleController.getBySlugPublic);
     router.get('/news/categories', categoryController.list);
@@ -57,7 +57,7 @@ const initApiRoutes = (app) => {
     //group routes
     router.get("/group/read", groupController.readFunc);
 
-    // Admin news routes (protected via roles)
+    // Admin news routes
     router.post('/news/category', categoryController.create);
     router.put('/news/category/:id', categoryController.update);
     router.delete('/news/category/:id', categoryController.remove);

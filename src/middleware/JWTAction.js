@@ -18,11 +18,15 @@ const verifyToken = (token) => {
     let key = process.env.JWT_SECRET;
     let decoded = null;
 
+    if (!token || typeof token !== 'string') {
+        console.log(" Token is empty or invalid format:", token);
+        return null;
+    }
+
     try {
         decoded = jwt.verify(token, key);
-
     } catch (err) {
-        console.log(err);
+        console.log(" JWT verification failed:", err.message);
     }
     return decoded;
 }
