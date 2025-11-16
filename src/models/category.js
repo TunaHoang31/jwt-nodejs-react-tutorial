@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       field: 'parent_id'
     }
   }, {
-    tableName: 'Category',
+    tableName: 'Category',      
     underscored: false
   });
 
