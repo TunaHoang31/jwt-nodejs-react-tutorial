@@ -1,0 +1,92 @@
+$primary: #0d6efd;
+$muted: #6c757d;
+$bg: #f8f9fa;
+$card-bg: #ffffff;
+$radius: 10px;
+
+body {
+  background-color: $bg;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #222;
+}
+
+.user-infor-container {
+  background: $card-bg;
+  padding: 1.25rem;
+  border-radius: $radius;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  margin-top: 1rem;
+
+  h3 {
+    margin-bottom: .75rem;
+    color: darken($primary, 10%);
+    font-weight: 600;
+  }
+
+  label {
+    font-weight: 600;
+    color: $muted;
+  }
+
+  .form-control {
+    border-radius: 6px;
+    box-shadow: none;
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 0.15rem rgba($primary, 0.12);
+    }
+  }
+
+  .btn-primary {
+    background-color: $primary;
+    border-color: $primary;
+    &:hover {
+      background-color: darken($primary, 6%);
+      border-color: darken($primary, 6%);
+    }
+  }
+}
+
+.table-users {
+  h3 {
+    margin-bottom: .5rem;
+    color: #111827;
+    font-weight: 600;
+  }
+
+  table {
+    background: $card-bg;
+    border-radius: 8px;
+    overflow: hidden;
+
+    thead th {
+      background: mix($bg, $card-bg, 60%);
+      color: $muted;
+      border: none;
+      font-weight: 600;
+    }
+
+    tbody tr {
+      td, th {
+        vertical-align: middle;
+      }
+    }
+
+    .btn {
+      margin-right: .5rem;
+    }
+  }
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .user-infor-container {
+    padding: 1rem;
+  }
+
+  .user-infor-container .col-6 {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+}

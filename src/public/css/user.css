@@ -1,0 +1,14 @@
+body{background-color:#f8f9fa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:#222}
+.user-infor-container{background:#ffffff;padding:1.25rem;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.06);margin-top:1rem}
+.user-infor-container h3{margin-bottom:.75rem;color:#0056d6;font-weight:600}
+.user-infor-container label{font-weight:600;color:#6c757d}
+.user-infor-container .form-control{border-radius:6px;box-shadow:none}
+.user-infor-container .form-control:focus{border-color:#0d6efd;box-shadow:0 0 0 0.15rem rgba(13,110,253,0.12)}
+.user-infor-container .btn-primary{background-color:#0d6efd;border-color:#0d6efd}
+.user-infor-container .btn-primary:hover{background-color:#0958d6;border-color:#0958d6}
+.table-users h3{margin-bottom:.5rem;color:#111827;font-weight:600}
+.table-users table{background:#ffffff;border-radius:8px;overflow:hidden}
+.table-users table thead th{background:#f3f5f6;color:#6c757d;border:none;font-weight:600}
+.table-users table tbody tr td,.table-users table tbody tr th{vertical-align:middle}
+.table-users .btn{margin-right:.5rem}
+@media (max-width:768px){.user-infor-container{padding:1rem}.user-infor-container .col-6{width:100% !important;flex:0 0 100% !important;max-width:100% !important}}

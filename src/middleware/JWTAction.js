@@ -65,8 +65,8 @@ const checkUserJWT = (req, res, next) => {
             EM: 'Not authenticated the user'
         })
     }
-
 }
+
 const checkUserPermission = (req, res, next) => {
     if (nonSecurePaths.includes(req.path) || req.path === '/account') return next();
 
